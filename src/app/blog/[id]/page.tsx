@@ -1,19 +1,19 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowLeft, FiUser, FiCalendar, FiBookOpen, FiArrowRight } from "react-icons/fi";
-import { BLOG_POSTS } from "@/data/blogs";
+import { getBlogById } from "@/app/actions/blog.action";
 import Wrapper from "@/components/_shared/Wrapper";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function DetailBlogPage({ params }: PageProps) {
-  const { id } = React.use(params);
-  const blog = BLOG_POSTS.find((b) => b.id === parseInt(id || ""));
+export default async function DetailBlogPage({ params }: PageProps) {
+  const { id } = await params;
+  const blog = await getBlogById(parseInt(id || "0"));
 
   if (!blog) {
     return (
@@ -77,7 +77,13 @@ export default function DetailBlogPage({ params }: PageProps) {
             </div>
             <div className="flex items-center gap-1.5">
               <FiCalendar className="text-zinc-600 text-sm" />
-              <span>{blog.date}</span>
+              <span>
+                {new Date(blog.publishedDate).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric"
+                })}
+              </span>
             </div>
             <div className="flex items-center gap-1.5">
               <FiBookOpen className="text-zinc-600 text-sm" />
@@ -98,21 +104,10 @@ export default function DetailBlogPage({ params }: PageProps) {
         </div>
 
         {/* Article Body Content */}
-        <article className="max-w-3xl mx-auto flex flex-col gap-6 text-sm sm:text-base text-zinc-300 font-light leading-relaxed mt-10">
-          {blog.content.map((paragraph, index) => (
-            <p key={index} className="text-justify font-poppins leading-relaxed tracking-wide">
-              {paragraph}
-            </p>
-          ))}
-
-          {/* Decorative Quote Divider Callout */}
-          <div className="border-l-4 border-[#004AC6] bg-[#111322]/30 p-6 rounded-r-2xl my-4 text-xs sm:text-sm text-zinc-400 italic">
-            "Kesehatan seksual adalah bagian tak terpisahkan dari kesehatan fisik dan kesejahteraan mental secara keseluruhan. Keintiman yang sehat dimulai dari kesadaran, edukasi, dan komunikasi terbuka."
-          </div>
-
-          <p className="text-justify font-poppins leading-relaxed tracking-wide">
-            Selalu pastikan Anda menggunakan alat perlindungan yang berkualitas tinggi dan teruji secara klinis untuk melindungi diri Anda dan pasangan tercinta dari risiko-risiko yang tidak diinginkan.
-          </p>
+        <article className="max-w-3xl mx-auto flex flex-col gap-6 text-sm sm:text-base text-zinc-300 font-light leading-relaxed mt-10 prose prose-invert prose-blue max-w-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {blog.content}
+          </ReactMarkdown>
 
           {/* Dynamic Link CTA to Catalog */}
           <div className="border-t border-white/5 pt-8 mt-6 flex flex-col gap-4 items-center text-center sm:text-left sm:items-start select-none">

@@ -1,19 +1,17 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiStar, FiArrowLeft, FiShoppingBag } from "react-icons/fi";
-import { PRODUCTS } from "@/data/products";
+import { getProductById } from "@/app/actions/product.action";
 import Wrapper from "@/components/_shared/Wrapper";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function DetailProductPage({ params }: PageProps) {
-  const { id } = React.use(params);
-  const product = PRODUCTS.find((p) => p.id === parseInt(id || ""));
+export default async function DetailProductPage({ params }: PageProps) {
+  const { id } = await params;
+  const product = await getProductById(parseInt(id || "0"));
 
   if (!product) {
     return (
@@ -108,7 +106,7 @@ export default function DetailProductPage({ params }: PageProps) {
             </p>
 
             {/* Product Specifications Card */}
-            {product.specs && (
+            {(product.width || product.length || product.material || product.lubricant) && (
               <div className="rounded-2xl bg-[#111322]/40 border border-white/5 p-6 flex flex-col gap-4">
                 <h3 className="text-xs font-bold text-white uppercase tracking-wider border-b border-white/5 pb-2">
                   Spesifikasi Produk
@@ -116,19 +114,19 @@ export default function DetailProductPage({ params }: PageProps) {
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-xs">
                   <div className="flex flex-col gap-1">
                     <span className="text-zinc-500 font-medium uppercase tracking-wider text-[10px]">Lebar Nominal</span>
-                    <span className="text-zinc-300 font-semibold">{product.specs.width}</span>
+                    <span className="text-zinc-300 font-semibold">{product.width}</span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-zinc-500 font-medium uppercase tracking-wider text-[10px]">Panjang Nominal</span>
-                    <span className="text-zinc-300 font-semibold">{product.specs.length}</span>
+                    <span className="text-zinc-300 font-semibold">{product.length}</span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-zinc-500 font-medium uppercase tracking-wider text-[10px]">Bahan Dasar</span>
-                    <span className="text-zinc-300 font-semibold">{product.specs.material}</span>
+                    <span className="text-zinc-300 font-semibold">{product.material}</span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-zinc-500 font-medium uppercase tracking-wider text-[10px]">Tipe Lubricant</span>
-                    <span className="text-zinc-300 font-semibold">{product.specs.lubricant}</span>
+                    <span className="text-zinc-300 font-semibold">{product.lubricant}</span>
                   </div>
                 </div>
               </div>
