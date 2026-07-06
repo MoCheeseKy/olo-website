@@ -1,20 +1,43 @@
 import { getProductById, createProduct, updateProduct } from "@/app/actions/product.action";
+import { uploadImageAction } from "@/app/actions/upload.action";
+import { getProductTypes } from "@/app/actions/productType.action";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { FiArrowLeft, FiSave } from "react-icons/fi";
 
-export default async function AdminProdukFormPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
-  const { id } = await searchParams;
+export default async function AdminProdukFormPage({ searchParams }: { searchParams: Promise<{ id?: string, category?: string }> }) {
+  const { id, category: queryCategory } = await searchParams;
   const productId = id ? parseInt(id) : null;
   const product = productId ? await getProductById(productId) : null;
+
+  const formCategory = product?.category || queryCategory || "Kondom";
+  const productTypes = await getProductTypes(formCategory);
 
   async function handleSave(formData: FormData) {
     "use server";
     
+    let imageUrl = formData.get("existingImage") as string;
+    const imageFile = formData.get("imageFile") as File | null;
+
+    if (imageFile && imageFile.size > 0) {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", imageFile);
+      const uploadResult = await uploadImageAction(uploadFormData);
+      if (uploadResult.success && uploadResult.url) {
+        imageUrl = uploadResult.url;
+      } else {
+        console.error("Failed to upload image:", uploadResult.error);
+        // Fallback to empty string if no existing image, or we could throw an error
+        if (!imageUrl) imageUrl = "";
+      }
+    }
+    
+    const typeIdStr = formData.get("typeId") as string;
+    
     const data = {
       name: formData.get("name") as string,
       category: formData.get("category") as string,
-      image: formData.get("image") as string,
+      image: imageUrl,
       description: formData.get("description") as string,
       width: formData.get("width") as string,
       length: formData.get("length") as string,
@@ -22,6 +45,7 @@ export default async function AdminProdukFormPage({ searchParams }: { searchPara
       lubricant: formData.get("lubricant") as string,
       shopeeUrl: formData.get("shopeeUrl") as string,
       tokopediaUrl: formData.get("tokopediaUrl") as string,
+      typeId: typeIdStr ? parseInt(typeIdStr) : null,
     };
 
     if (productId) {
@@ -52,14 +76,36 @@ export default async function AdminProdukFormPage({ searchParams }: { searchPara
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Kategori *</label>
-            <input required type="text" name="category" defaultValue={product?.category || ""} placeholder="Contoh: Ultra Thin" className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+            <select required name="category" defaultValue={formCategory} className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors appearance-none">
+              <option value="Kondom">Kondom</option>
+              <option value="Pelumas">Pelumas</option>
+              <option value="Aksesoris">Aksesoris</option>
+            </select>
           </div>
+
+          {(formCategory === "Kondom" || formCategory === "Aksesoris") && (
+            <div className="flex flex-col gap-2 md:col-span-2">
+              <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Jenis Produk (Opsional)</label>
+              <select name="typeId" defaultValue={product?.typeId || ""} className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors appearance-none">
+                <option value="">-- Pilih Jenis --</option>
+                {productTypes.map(type => (
+                  <option key={type.id} value={type.id}>{type.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">URL Gambar *</label>
-          <input required type="text" name="image" defaultValue={product?.image || ""} placeholder="/images/ads_product_1.png" className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
-          <p className="text-[10px] text-zinc-500">Bisa gunakan path statis (misal: /images/...) atau URL eksternal.</p>
+          <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Gambar *</label>
+          <input type="hidden" name="existingImage" value={product?.image || ""} />
+          {product?.image && (
+            <div className="mb-2">
+              <img src={product.image} alt="Preview" className="w-24 h-24 object-contain bg-white/5 rounded-lg border border-white/10" />
+            </div>
+          )}
+          <input type="file" name="imageFile" accept="image/*" required={!product?.image} className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer text-zinc-400" />
+          <p className="text-[10px] text-zinc-500">Pilih file gambar dari komputer Anda.</p>
         </div>
 
         <div className="flex flex-col gap-2">

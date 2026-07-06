@@ -33,11 +33,11 @@ const REVIEWS = [
   },
 ];
 
-const CATEGORIES = ["All", "Ultra Thin", "lembut idk", "Textured", "Lorem ipsum"];
+const CATEGORIES = ["Semua", "Kondom", "Pelumas", "Aksesoris"];
 
 export default function ProdukClient({ products }: { products: Product[] }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Semua");
 
   // Filtering Logic
   const filteredProducts = useMemo(() => {
@@ -46,7 +46,7 @@ export default function ProdukClient({ products }: { products: Product[] }) {
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
       const matchesCategory =
-        activeCategory === "All" || product.category === activeCategory;
+        activeCategory === "Semua" || product.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, activeCategory, products]);
@@ -115,7 +115,7 @@ export default function ProdukClient({ products }: { products: Product[] }) {
                         : "border border-white/10 text-zinc-400 hover:text-white hover:border-white/30 bg-white/5"
                     }`}
                   >
-                    {cat === "lembut idk" ? "lembut idk" : cat}
+                    {cat}
                   </button>
                 );
               })}

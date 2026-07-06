@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiBox, FiFileText, FiHome } from "react-icons/fi";
+import { FiBox, FiFileText, FiHome, FiLogOut, FiList, FiStar } from "react-icons/fi";
 
 export const metadata = {
   title: "Admin Dashboard - OLO Website",
@@ -21,11 +21,43 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           
           <nav className="flex-1 p-4 flex flex-col gap-2">
             <Link 
-              href="/admin/produk" 
+              href="/admin/produk?category=Kondom" 
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
             >
               <FiBox className="text-lg" />
-              Kelola Produk
+              Kelola Kondom
+            </Link>
+            
+            <Link 
+              href="/admin/produk?category=Pelumas" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiBox className="text-lg" />
+              Kelola Pelumas
+            </Link>
+            
+            <Link 
+              href="/admin/produk?category=Aksesoris" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiBox className="text-lg" />
+              Kelola Aksesoris
+            </Link>
+
+            <Link 
+              href="/admin/jenis-produk" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiList className="text-lg" />
+              Kelola Jenis Produk
+            </Link>
+
+            <Link 
+              href="/admin/best-produk" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiStar className="text-lg" />
+              Kelola Best Product
             </Link>
             
             <Link 
@@ -45,6 +77,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <FiHome className="text-lg" />
               Kembali ke Web
             </Link>
+
+            <form action={async () => {
+              "use server";
+              const { logoutAction } = await import("@/app/actions/auth.action");
+              await logoutAction();
+            }}>
+              <button 
+                type="submit"
+                className="w-full flex items-center gap-3 px-4 py-3 mt-2 rounded-lg text-sm font-semibold text-red-500/80 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+              >
+                <FiLogOut className="text-lg" />
+                Logout
+              </button>
+            </form>
           </div>
         </aside>
 

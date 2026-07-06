@@ -4,8 +4,6 @@ import Link from "next/link";
 import { FiArrowLeft, FiUser, FiCalendar, FiBookOpen, FiArrowRight } from "react-icons/fi";
 import { getBlogById } from "@/app/actions/blog.action";
 import Wrapper from "@/components/_shared/Wrapper";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -105,9 +103,7 @@ export default async function DetailBlogPage({ params }: PageProps) {
 
         {/* Article Body Content */}
         <article className="max-w-3xl mx-auto flex flex-col gap-6 text-sm sm:text-base text-zinc-300 font-light leading-relaxed mt-10 prose prose-invert prose-blue max-w-none">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {blog.content}
-          </ReactMarkdown>
+          <div dangerouslySetInnerHTML={{ __html: blog.content }} />
 
           {/* Dynamic Link CTA to Catalog */}
           <div className="border-t border-white/5 pt-8 mt-6 flex flex-col gap-4 items-center text-center sm:text-left sm:items-start select-none">

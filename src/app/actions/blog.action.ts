@@ -2,6 +2,7 @@
 
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { authenticateServerAction } from "@/lib/auth";
 
 export async function getBlogs() {
   try {
@@ -34,6 +35,7 @@ export async function createBlog(data: {
   content: string;
 }) {
   try {
+    await authenticateServerAction();
     const blog = await db.blog.create({
       data,
     });
@@ -55,6 +57,7 @@ export async function updateBlog(id: number, data: Partial<{
   content: string;
 }>) {
   try {
+    await authenticateServerAction();
     const blog = await db.blog.update({
       where: { id },
       data,
@@ -71,6 +74,7 @@ export async function updateBlog(id: number, data: Partial<{
 
 export async function deleteBlog(id: number) {
   try {
+    await authenticateServerAction();
     await db.blog.delete({
       where: { id },
     });

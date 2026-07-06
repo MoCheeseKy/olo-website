@@ -4,18 +4,20 @@ import { getProducts, deleteProduct } from "@/app/actions/product.action";
 import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
 import Image from "next/image";
 
-export default async function AdminProdukPage() {
-  const products = await getProducts();
+export default async function AdminProdukPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+  const { category } = await searchParams;
+  const products = await getProducts(category);
+  const title = category ? `Kelola ${category}` : "Kelola Produk";
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold tracking-wide uppercase">Kelola Produk</h2>
-          <p className="text-zinc-400 text-sm mt-1">Daftar semua produk OLO</p>
+          <h2 className="text-2xl font-bold tracking-wide uppercase">{title}</h2>
+          <p className="text-zinc-400 text-sm mt-1">Daftar semua produk {category || "OLO"}</p>
         </div>
         <Link
-          href="/admin/produk/form"
+          href={`/admin/produk/form${category ? `?category=${category}` : ''}`}
           className="bg-[#004AC6] hover:bg-[#003cb0] text-white px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors shadow-lg shadow-blue-900/20"
         >
           <FiPlus />
@@ -29,6 +31,7 @@ export default async function AdminProdukPage() {
             <tr>
               <th className="px-6 py-4 font-semibold">Produk</th>
               <th className="px-6 py-4 font-semibold">Kategori</th>
+              <th className="px-6 py-4 font-semibold">Jenis</th>
               <th className="px-6 py-4 font-semibold">Aksi</th>
             </tr>
           </thead>
@@ -57,6 +60,15 @@ export default async function AdminProdukPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
+                  {product.type ? (
+                    <span className="bg-zinc-800 text-zinc-300 border border-zinc-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                      {product.type.name}
+                    </span>
+                  ) : (
+                    <span className="text-zinc-600 text-xs">-</span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <Link
                       href={`/admin/produk/form?id=${product.id}`}
@@ -83,7 +95,7 @@ export default async function AdminProdukPage() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={3} className="px-6 py-8 text-center text-zinc-500 text-sm">
+                <td colSpan={4} className="px-6 py-8 text-center text-zinc-500 text-sm">
                   Belum ada produk. Silakan tambah produk baru.
                 </td>
               </tr>

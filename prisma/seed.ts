@@ -20,6 +20,10 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Seeding Database...');
+  
+  // Clear existing data
+  await prisma.product.deleteMany();
+  await prisma.blog.deleteMany();
 
   // Seed Products
   console.log('Seeding Products...');
@@ -50,7 +54,7 @@ async function main() {
         image: b.image,
         description: b.description,
         author: b.author,
-        content: b.content.join('\n\n'), // convert array of strings to markdown paragraphs
+        content: b.content.map(p => `<p>${p}</p>`).join(''), // convert array of strings to html paragraphs
       },
     });
   }

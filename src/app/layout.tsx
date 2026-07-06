@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   description: "OLO website built with Next.js and Tailwind CSS",
 };
 
+import LayoutWrapper from "@/components/_shared/LayoutWrapper";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,11 +38,9 @@ export default function RootLayout({
       className={`${manrope.variable} ${geistMono.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-white dark:bg-black text-black dark:text-white">
-        <Header />
-        <main className="flex-1 flex flex-col w-full">
+        <LayoutWrapper header={<Header />} footer={<Footer />}>
           {children}
-        </main>
-        <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );

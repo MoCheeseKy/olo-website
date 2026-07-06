@@ -22,10 +22,24 @@ model Product {
   lubricant    String?
   shopeeUrl    String?  @map("shopee_url")
   tokopediaUrl String?  @map("tokopedia_url")
+  typeId       Int?     @map("type_id")
+  type         ProductType? @relation(fields: [typeId], references: [id])
+  isBestProduct Boolean  @default(false) @map("is_best_product")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("products")
+}
+
+model ProductType {
+  id        Int       @id @default(autoincrement())
+  name      String
+  category  String
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("product_types")
 }
 
 model Blog {
