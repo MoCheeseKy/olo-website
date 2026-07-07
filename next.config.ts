@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ["@node-rs/argon2"], // example if needed
+  serverActions: {
+    allowedOrigins: ['olo.co.id', 'www.olo.co.id', 'localhost:3000'],
+  },
 };
 
 export default nextConfig;
