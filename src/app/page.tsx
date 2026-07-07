@@ -4,6 +4,8 @@ import { getFaqs } from "@/app/actions/faq.action";
 import { getBestProducts } from "@/app/actions/product.action";
 import { getPromoCards } from "@/app/actions/promo.action";
 
+export const revalidate = 60; // Refresh data setiap 60 detik jika ada perubahan di database langsung
+
 export default async function Home() {
   const banners = await getHeroBanners();
   const faqs = await getFaqs();
