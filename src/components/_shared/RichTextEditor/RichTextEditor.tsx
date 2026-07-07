@@ -209,7 +209,6 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
       {editor && (
         <BubbleMenu 
           editor={editor} 
-          tippyOptions={{ duration: 150 }}
           className="flex bg-[#111111]/90 backdrop-blur-xl shadow-2xl shadow-black border border-white/10 rounded-xl overflow-hidden p-1 gap-1"
         >
           <button

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import Wrapper from '@/components/_shared/Wrapper';
 
@@ -9,19 +10,19 @@ const CATEGORIES = [
     id: 0,
     image: '/images/category_1.png',
     title: 'KONDOM',
-    link: '/produk',
+    link: '/produk?category=Kondom',
   },
   {
     id: 1,
     image: '/images/category_1.png',
     title: 'PELUMAS',
-    link: '/produk',
+    link: '/produk?category=Pelumas',
   },
   {
     id: 2,
     image: '/images/category_1.png',
     title: 'AKSESORIS',
-    link: '/produk',
+    link: '/produk?category=Aksesoris',
   },
   {
     id: 3,
@@ -42,10 +43,10 @@ export function ProductCategory() {
         <div className='flex flex-row items-end justify-between border-b border-zinc-900 pb-6'>
           <div className='flex flex-col'>
             <span className='text-[10px] md:text-xs font-bold tracking-[0.25em] text-[#0043ff] uppercase'>
-              BAHAN NYA APA
+              KATEGORI
             </span>
             <h2 className='text-2xl md:text-3xl font-extrabold text-white tracking-wide uppercase mt-1'>
-              PICK YOUR TASTE
+              OUR PRODUK
             </h2>
           </div>
           <span className='text-[9px] md:text-xs font-bold tracking-[0.2em] text-zinc-500 hover:text-white transition-colors duration-200 uppercase cursor-pointer select-none pb-1'>
@@ -56,9 +57,10 @@ export function ProductCategory() {
         {/* Categories Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
           {CATEGORIES.map((cat) => (
-            <div
+            <Link
+              href={cat.link}
               key={cat.id}
-              className='relative w-full h-[280px] sm:h-[320px] rounded-[28px] overflow-hidden border border-white/5 shadow-xl group cursor-pointer'
+              className='relative w-full h-[280px] sm:h-[320px] rounded-[28px] overflow-hidden border border-white/5 shadow-xl group cursor-pointer block'
             >
               {/* Background Image with Zoom effect */}
               <div className='absolute inset-0 w-full h-full -z-10'>
@@ -80,7 +82,7 @@ export function ProductCategory() {
                   <FiArrowRight className='text-sm transition-transform duration-300 group-hover:translate-x-1' />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </Wrapper>

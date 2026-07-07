@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FiBox, FiFileText, FiHome, FiLogOut, FiList, FiStar } from "react-icons/fi";
+import { FiBox, FiFileText, FiHome, FiLogOut, FiList, FiStar, FiImage, FiHelpCircle, FiPhone, FiInfo } from "react-icons/fi";
 
 export const metadata = {
   title: "Admin Dashboard - OLO Website",
@@ -59,13 +59,52 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <FiStar className="text-lg" />
               Kelola Best Product
             </Link>
-            
+            <Link 
+              href="/admin/hero" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiImage className="text-lg" />
+              Kelola Hero Banner
+            </Link>
+
             <Link 
               href="/admin/blog" 
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
             >
               <FiFileText className="text-lg" />
               Kelola Blog
+            </Link>
+
+            <Link 
+              href="/admin/qna" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiHelpCircle className="text-lg" />
+              Kelola QnA
+            </Link>
+
+            <Link 
+              href="/admin/cta" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiStar className="text-lg" />
+              Kelola CTA
+            </Link>
+
+            <Link 
+              href="/admin/tentang-kami" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiInfo className="text-lg" />
+              Kelola Tentang Kami
+            </Link>
+
+            <Link 
+              href="/admin/kontak" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiPhone className="text-lg" />
+              Pengaturan Kontak
             </Link>
           </nav>
           
