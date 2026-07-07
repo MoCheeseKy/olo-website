@@ -18,8 +18,13 @@ model Product {
   description  String   @db.Text
   width        String?
   length       String?
+  actualWidth  String?  @map("actual_width")
+  thickness    String?
+  aroma        String?
   material     String?
   lubricant    String?
+  shape        String?
+  features     String?  @db.Text
   shopeeUrl    String?  @map("shopee_url")
   tokopediaUrl String?  @map("tokopedia_url")
   typeId       Int?     @map("type_id")

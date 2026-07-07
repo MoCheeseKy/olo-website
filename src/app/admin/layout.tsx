@@ -100,6 +100,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
 
             <Link 
+              href="/admin/privacy" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiInfo className="text-lg" />
+              Kelola Privacy
+            </Link>
+
+            <Link 
+              href="/admin/terms" 
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+            >
+              <FiInfo className="text-lg" />
+              Kelola Terms
+            </Link>
+
+            <Link 
               href="/admin/kontak" 
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
             >

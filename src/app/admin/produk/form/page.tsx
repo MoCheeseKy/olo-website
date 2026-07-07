@@ -41,8 +41,13 @@ export default async function AdminProdukFormPage({ searchParams }: { searchPara
       description: formData.get("description") as string,
       width: formData.get("width") as string,
       length: formData.get("length") as string,
+      actualWidth: formData.get("actualWidth") as string,
+      thickness: formData.get("thickness") as string,
+      aroma: formData.get("aroma") as string,
       material: formData.get("material") as string,
       lubricant: formData.get("lubricant") as string,
+      shape: formData.get("shape") as string,
+      features: formData.get("features") as string,
       shopeeUrl: formData.get("shopeeUrl") as string,
       tokopediaUrl: formData.get("tokopediaUrl") as string,
       typeId: typeIdStr ? parseInt(typeIdStr) : null,
@@ -113,27 +118,52 @@ export default async function AdminProdukFormPage({ searchParams }: { searchPara
           <textarea required name="description" defaultValue={product?.description || ""} rows={4} className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
         </div>
 
-        <div className="border-t border-white/10 pt-6 mt-2">
-          <h3 className="text-sm font-bold uppercase tracking-widest mb-4 text-[#004AC6]">Spesifikasi Detail (Opsional)</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {(formCategory === "Kondom") && (
+          <>
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Lebar</label>
-              <input type="text" name="width" defaultValue={product?.width || ""} placeholder="52 ± 2mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+              <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Fitur Unggulan (Opsional)</label>
+              <textarea name="features" defaultValue={product?.features || ""} rows={3} placeholder="Fitur unggulan pisahkan dengan koma atau baris baru..." className="bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Panjang</label>
-              <input type="text" name="length" defaultValue={product?.length || ""} placeholder="160 ± 2mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+
+            <div className="border-t border-white/10 pt-6 mt-2">
+              <h3 className="text-sm font-bold uppercase tracking-widest mb-4 text-[#004AC6]">Spesifikasi Detail Kondom (Opsional)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Lebar Nominal</label>
+                  <input type="text" name="width" defaultValue={product?.width || ""} placeholder="52 ± 2mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Panjang</label>
+                  <input type="text" name="length" defaultValue={product?.length || ""} placeholder="160 ± 2mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Lebar</label>
+                  <input type="text" name="actualWidth" defaultValue={product?.actualWidth || ""} placeholder="Contoh: 52mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Tebal</label>
+                  <input type="text" name="thickness" defaultValue={product?.thickness || ""} placeholder="Contoh: 0.01mm" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Aroma</label>
+                  <input type="text" name="aroma" defaultValue={product?.aroma || ""} placeholder="Contoh: Vanilla" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Bahan Dasar</label>
+                  <input type="text" name="material" defaultValue={product?.material || ""} placeholder="Lateks Alami Premium" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Pelumas</label>
+                  <input type="text" name="lubricant" defaultValue={product?.lubricant || ""} placeholder="Silicone Oil Premium" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Bentuk</label>
+                  <input type="text" name="shape" defaultValue={product?.shape || ""} placeholder="Contoh: Smooth, Bertekstur" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Material</label>
-              <input type="text" name="material" defaultValue={product?.material || ""} placeholder="Lateks Alami Premium" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Lubricant</label>
-              <input type="text" name="lubricant" defaultValue={product?.lubricant || ""} placeholder="Silicone Oil Premium" className="bg-black/50 border border-white/10 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors" />
-            </div>
-          </div>
-        </div>
+          </>
+        )}
 
         <div className="border-t border-white/10 pt-6 mt-2">
           <h3 className="text-sm font-bold uppercase tracking-widest mb-4 text-[#004AC6]">Tautan E-Commerce (Opsional)</h3>

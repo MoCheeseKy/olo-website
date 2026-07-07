@@ -36,8 +36,13 @@ export async function createProduct(data: {
   description: string;
   width?: string;
   length?: string;
+  actualWidth?: string;
+  thickness?: string;
+  aroma?: string;
   material?: string;
   lubricant?: string;
+  shape?: string;
+  features?: string;
   shopeeUrl?: string;
   tokopediaUrl?: string;
   typeId?: number | null;
@@ -63,8 +68,13 @@ export async function updateProduct(id: number, data: Partial<{
   description: string;
   width?: string;
   length?: string;
+  actualWidth?: string;
+  thickness?: string;
+  aroma?: string;
   material?: string;
   lubricant?: string;
+  shape?: string;
+  features?: string;
   shopeeUrl?: string;
   tokopediaUrl?: string;
   typeId?: number | null;
