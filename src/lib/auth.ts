@@ -1,7 +1,7 @@
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT, jwtVerify } from 'jose';
 
 export const getJwtSecretKey = () => {
-  const secret = process.env.JWT_SECRET || "rahasia-negara-olo-website-2026-cadangan";
+  const secret = 'rahasia-negara-olo-website-2026-cadangan';
   return new TextEncoder().encode(secret);
 };
 
@@ -16,18 +16,18 @@ export async function verifyAuth(token: string) {
 
 export async function createAuthToken(payload: any) {
   const token = await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
+    .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime("24h") // Token expires in 24 hours
+    .setExpirationTime('24h') // Token expires in 24 hours
     .sign(getJwtSecretKey());
   return token;
 }
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 export async function authenticateServerAction() {
   const cookieStore = await cookies();
-  const token = cookieStore.get("admin_token")?.value;
-  if (!token) throw new Error("Unauthorized");
+  const token = cookieStore.get('admin_token')?.value;
+  if (!token) throw new Error('Unauthorized');
   const verified = await verifyAuth(token);
-  if (!verified) throw new Error("Unauthorized");
+  if (!verified) throw new Error('Unauthorized');
 }

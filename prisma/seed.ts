@@ -11,7 +11,7 @@ dotenv.config({ path: '.env.local' }); // load .env.local
 const connectionString = process.env.DATABASE_URI || process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("DATABASE_URI is not set in environment variables");
+  throw new Error('DATABASE_URI is not set in environment variables');
 }
 
 const pool = new Pool({ connectionString });
@@ -20,7 +20,7 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Seeding Database...');
-  
+
   // Clear existing data
   await prisma.product.deleteMany();
   await prisma.blog.deleteMany();
@@ -54,7 +54,7 @@ async function main() {
         image: b.image,
         description: b.description,
         author: b.author,
-        content: b.content.map(p => `<p>${p}</p>`).join(''), // convert array of strings to html paragraphs
+        content: b.content.map((p) => `<p>${p}</p>`).join(''), // convert array of strings to html paragraphs
       },
     });
   }

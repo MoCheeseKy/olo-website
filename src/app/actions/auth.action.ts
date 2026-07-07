@@ -8,8 +8,8 @@ export async function loginAction(formData: FormData) {
   const username = (formData.get('username') as string)?.trim();
   const password = (formData.get('password') as string)?.trim();
 
-  const validUsername = process.env.ADMIN_USERNAME || 'admin';
-  const validPassword = process.env.ADMIN_PASSWORD || 'admin';
+  const validUsername = 'adminolo';
+  const validPassword = 'olowebadmin123!';
 
   console.log('Login attempt:', {
     inputUsername: username,
