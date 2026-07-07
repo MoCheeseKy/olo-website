@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FiPlus, FiEdit2, FiTrash2, FiSave } from "react-icons/fi";
+import { FiPlus, FiEdit2 } from "react-icons/fi";
 import { getSiteSettings, updateSiteSettings } from "@/app/actions/setting.action";
+import SubmitButton from "@/components/_shared/SubmitButton/SubmitButton";
+import DeleteButton from "@/components/_shared/DeleteButton/DeleteButton";
 import { getAboutOffers, deleteAboutOffer, getAboutHistories, deleteAboutHistory } from "@/app/actions/about.action";
 import { AboutOffer, AboutHistory } from "@/generated/prisma/client";
 
@@ -104,10 +106,7 @@ export default async function AdminTentangKamiPage() {
         </div>
 
         <div className="flex justify-end mt-2">
-          <button type="submit" className="bg-[#004AC6] hover:bg-[#003cb0] text-white px-8 py-3 rounded-lg text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors shadow-lg shadow-blue-900/20">
-            <FiSave className="text-lg" />
-            Simpan Teks Konten
-          </button>
+          <SubmitButton>Simpan Teks Konten</SubmitButton>
         </div>
       </form>
 
@@ -147,16 +146,12 @@ export default async function AdminTentangKamiPage() {
                   >
                     <FiEdit2 className="text-sm" />
                   </Link>
-                  <form action={handleDeleteOffer}>
-                    <input type="hidden" name="id" value={offer.id} />
-                    <button 
-                      type="submit" 
-                      className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors cursor-pointer"
-                      title="Hapus Offer"
-                    >
-                      <FiTrash2 className="text-sm" />
-                    </button>
-                  </form>
+                  <DeleteButton 
+                    action={async () => {
+                      "use server";
+                      await deleteAboutOffer(offer.id);
+                    }} 
+                  />
                 </div>
               </div>
             ))}
@@ -205,16 +200,12 @@ export default async function AdminTentangKamiPage() {
                   >
                     <FiEdit2 className="text-sm" />
                   </Link>
-                  <form action={handleDeleteHistory}>
-                    <input type="hidden" name="id" value={history.id} />
-                    <button 
-                      type="submit" 
-                      className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-colors cursor-pointer"
-                      title="Hapus Sejarah"
-                    >
-                      <FiTrash2 className="text-sm" />
-                    </button>
-                  </form>
+                  <DeleteButton 
+                    action={async () => {
+                      "use server";
+                      await deleteAboutHistory(history.id);
+                    }} 
+                  />
                 </div>
               </div>
             ))}

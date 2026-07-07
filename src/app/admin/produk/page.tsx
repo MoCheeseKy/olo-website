@@ -1,8 +1,9 @@
 export const dynamic = 'force-dynamic';
 import Link from "next/link";
 import { getProducts, deleteProduct } from "@/app/actions/product.action";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiPlus } from "react-icons/fi";
 import Image from "next/image";
+import DeleteButton from "@/components/_shared/DeleteButton/DeleteButton";
 
 export default async function AdminProdukPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category } = await searchParams;
@@ -77,18 +78,12 @@ export default async function AdminProdukPage({ searchParams }: { searchParams: 
                     >
                       <FiEdit />
                     </Link>
-                    <form action={async () => {
-                      "use server";
-                      await deleteProduct(product.id);
-                    }}>
-                      <button
-                        type="submit"
-                        className="text-zinc-400 hover:text-red-400 transition-colors p-2 bg-white/5 rounded-md hover:bg-white/10"
-                        title="Hapus"
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </form>
+                    <DeleteButton 
+                      action={async () => {
+                        "use server";
+                        await deleteProduct(product.id);
+                      }} 
+                    />
                   </div>
                 </td>
               </tr>

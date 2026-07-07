@@ -2,7 +2,8 @@ import { getHeroBannerById, createHeroBanner, updateHeroBanner } from "@/app/act
 import { uploadImageAction } from "@/app/actions/upload.action";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { FiArrowLeft, FiSave } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
+import SubmitButton from "@/components/_shared/SubmitButton/SubmitButton";
 
 export default async function AdminHeroFormPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const { id } = await searchParams;
@@ -84,10 +85,7 @@ export default async function AdminHeroFormPage({ searchParams }: { searchParams
         </div>
 
         <div className="flex justify-end mt-4 pt-6 border-t border-white/10">
-          <button type="submit" className="bg-[#004AC6] hover:bg-[#003cb0] text-white px-8 py-3 rounded-lg text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors shadow-lg shadow-blue-900/20">
-            <FiSave className="text-lg" />
-            Simpan Banner
-          </button>
+          <SubmitButton>Simpan Banner</SubmitButton>
         </div>
       </form>
     </div>

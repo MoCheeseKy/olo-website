@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { getPromoCards, deletePromoCard } from "@/app/actions/promo.action";
-import { FiEdit2, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit2, FiPlus } from "react-icons/fi";
 import Image from "next/image";
 import { PromoCard } from "@/generated/prisma/client";
+import DeleteButton from "@/components/_shared/DeleteButton/DeleteButton";
 
 export const metadata = {
   title: "Kelola Kartu Promo - Admin OLO",
@@ -75,16 +76,12 @@ export default async function AdminCtaPage() {
                     >
                       <FiEdit2 />
                     </Link>
-                    <form action={handleDelete}>
-                      <input type="hidden" name="id" value={card.id} />
-                      <button
-                        type="submit"
-                        className="text-zinc-400 hover:text-red-400 transition-colors p-2 bg-white/5 rounded-md hover:bg-white/10 cursor-pointer"
-                        title="Hapus"
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </form>
+                    <DeleteButton 
+                      action={async () => {
+                        "use server";
+                        await deletePromoCard(card.id);
+                      }} 
+                    />
                   </div>
                 </td>
               </tr>

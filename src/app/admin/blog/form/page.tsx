@@ -1,7 +1,8 @@
 import { getBlogById, createBlog, updateBlog } from "@/app/actions/blog.action";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { FiArrowLeft, FiSave, FiEdit3, FiTag, FiUser } from "react-icons/fi";
+import { FiArrowLeft, FiEdit3, FiTag, FiUser } from "react-icons/fi";
+import SubmitButton from "@/components/_shared/SubmitButton/SubmitButton";
 import BlogContentInput from "./BlogContentInput";
 import ImageInput from "./ImageInput";
 
@@ -131,13 +132,9 @@ export default async function AdminBlogFormPage({ searchParams }: { searchParams
 
             {/* Submit Button */}
             <div className="mt-8">
-              <button 
-                type="submit" 
-                className="w-full bg-[#004AC6] hover:bg-[#003cb0] text-white py-4 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(0,74,198,0.3)] hover:shadow-[0_0_30px_rgba(0,74,198,0.5)] group"
-              >
-                <FiSave className="text-lg group-hover:scale-110 transition-transform" />
-                <span>Simpan Publikasi</span>
-              </button>
+              <SubmitButton className="w-full bg-[#004AC6] hover:bg-[#003cb0] text-white py-4 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(0,74,198,0.3)] hover:shadow-[0_0_30px_rgba(0,74,198,0.5)] group disabled:opacity-50 disabled:cursor-not-allowed">
+                Simpan Publikasi
+              </SubmitButton>
             </div>
 
           </div>

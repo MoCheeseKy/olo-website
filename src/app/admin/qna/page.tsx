@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic';
 import Link from "next/link";
 import { getFaqs, deleteFaq } from "@/app/actions/faq.action";
-import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit, FiPlus } from "react-icons/fi";
+import DeleteButton from "@/components/_shared/DeleteButton/DeleteButton";
 
 export default async function AdminQnaPage() {
   const faqs = await getFaqs();
@@ -48,18 +49,12 @@ export default async function AdminQnaPage() {
                     >
                       <FiEdit />
                     </Link>
-                    <form action={async () => {
-                      "use server";
-                      await deleteFaq(faq.id);
-                    }}>
-                      <button
-                        type="submit"
-                        className="text-zinc-400 hover:text-red-400 transition-colors p-2 bg-white/5 rounded-md hover:bg-white/10"
-                        title="Hapus"
-                      >
-                        <FiTrash2 />
-                      </button>
-                    </form>
+                    <DeleteButton 
+                      action={async () => {
+                        "use server";
+                        await deleteFaq(faq.id);
+                      }} 
+                    />
                   </div>
                 </td>
               </tr>
